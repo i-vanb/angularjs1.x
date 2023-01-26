@@ -7,8 +7,18 @@
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=block" rel="stylesheet">
   <link href="./style/style.css" rel="stylesheet">
 </head>
-<body ng-app="app" ng-strict-di="true">
-  <app></app>
+<body ng-app="app" ng-strict-di="true" ng-controller="itemsCtrl">
+  <app last-item="lastItem"
+       list="list"
+       set-current="setCurrent(itemId)"
+       add-item="addItem(itemName)"
+       current-item="currentItem"
+       tags="tags"
+       add-tag="addTag(tagName)"
+       remove-tag="removeTag(tagName)"
+       history="history"
+  ></app>
+
   <script defer src="./js/vendor.js"></script>
   <script defer src="./js/templates.js"></script>
   <script defer src="./js/main.js"></script>

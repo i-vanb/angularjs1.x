@@ -1,0 +1,12 @@
+<div>
+    <div class="section">
+        <button class="button" ng-click="onClickHandler()">Clear history</button>
+    </div>
+
+    <div ng-repeat="item in history track by $index">
+        <history-item item="item"></history-item>
+    </div>
+
+
+</div>
+<!--class="item-row"-->

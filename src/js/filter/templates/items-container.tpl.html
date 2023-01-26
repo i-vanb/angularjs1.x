@@ -1,0 +1,16 @@
+<control-view select-options="selectOptions"
+              select-value="selectValue"
+              is-only-date="isOnlyDate"
+              input-search="inputSearch"
+></control-view>
+
+<items-view list="list"
+            is-only-date="isOnlyDate"
+            input-search="inputSearch"
+            set-current="setCurrent({itemId})"
+            get-date="getDate"
+            select-value="selectValue"
+></items-view>
+
+<create-item-view add-item="addItem({itemName})"
+></create-item-view>

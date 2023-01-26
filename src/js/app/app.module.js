@@ -1,73 +1,49 @@
-angular.module("app", ["templates"])
-  .directive("app", () => {
-    return {
-      scope: {},
-      restrict: "E",
-      templateUrl: "./js/app/app.tpl.html",
-    };
-  })
-  .directive("contentView", () => {
-    return {
-      scope: {},
-      restrict: "E",
-      templateUrl: "./js/app/content-view.tpl.html",
-    };
-  })
-  .directive("sidebarView", () => {
-    return {
-      scope: {},
-      restrict: "E",
-      templateUrl: "./js/app/sidebar-view.tpl.html",
-    };
-  })
-  .directive("elementsView", () => {
-    return {
-      scope: {},
-      restrict: "E",
-      templateUrl: "./js/app/elements-view.tpl.html",
-      controller: ["$scope", "$element", elementsViewCtrl],
-    };
-    function elementsViewCtrl($scope, $element) {
-      $scope.model = {
-        width: 300,
-      };
-      $scope.setWidth = () => {
-        let width = $scope.model.width;
-        if (!width) {
-          width = 1;
-          $scope.model.width = width;
-        }
-        $element.css("width", `${width}px`);
-      };
-      $scope.setWidth();
-    }
-  })
-  .directive("some1", () => {
-    return {
-      scope: {},
-      restrict: "E",
-      template: "<some-2></some-2>",
-    };
-  })
-  .directive("some2", () => {
-    return {
-      scope: {},
-      restrict: "E",
-      template: "<some-3></some-3>",
-    };
-  })
-  .directive("some3", () => {
-    return {
-      scope: {},
-      restrict: "E",
-      template: "<summary-view></summary-view>",
-    };
-  })
-  .directive("summaryView", () => {
-    return {
-      scope: {},
-      restrict: "E",
-      templateUrl: "./js/app/summary-view.tpl.html",
-    };
-  });
+angular.module("app", ["templates", "app.directive", "data.service"])
+    .controller('itemsCtrl', ['$scope','utils',  function ($scope, utils) {
+        $scope.list = utils.makeDefaultData();
+        $scope.currentItem = {};
+        $scope.history = [];
 
+        // $scope.lastItem = {};
+        $scope.tags = new Set();
+
+        $scope.list.forEach(i => {
+            if(!$scope.lastItem) $scope.lastItem = i;
+            if($scope.lastItem.date <= i.date) $scope.lastItem = i;
+            i.tags.forEach(tag => $scope.tags.add(tag))
+        });
+
+        $scope.addItem = function (itemName) {
+            const date = new Date().toISOString();
+            const newItem = {
+                id: utils.makeDataId(),
+                title: itemName,
+                tags: [],
+                date
+            }
+            if(date>=$scope.lastItem.date) $scope.lastItem = newItem;
+            $scope.list.push(newItem);
+        }
+
+        $scope.setCurrent = function (itemId) {
+            if(itemId === $scope.currentItem.id) {
+                const len = $scope.history.length;
+                $scope.history[len-1] += ', ' + $scope.currentItem.title;
+            } else {
+                $scope.currentItem = $scope.list.filter(i => i.id === itemId)[0];
+                $scope.history.push($scope.currentItem.title);
+            }
+        }
+
+        $scope.addTag = function (tagName) {
+            if (!tagName.length) return;
+            $scope.tags.add(tagName);
+
+            if($scope.currentItem.tags.indexOf(tagName)<0) $scope.currentItem.tags.push(tagName)
+        }
+
+        $scope.removeTag = function (tagName) {
+            $scope.currentItem.tags = $scope.currentItem.tags.filter(i => i !== tagName);
+        }
+
+    }])

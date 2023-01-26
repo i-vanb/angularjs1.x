@@ -1,0 +1,13 @@
+<div class="item-row" ng-mouseenter="showControl = true"
+     ng-mouseleave="showControl = false">
+    {{item}}
+<!--    <div class="item-row__name">{{item}}</div>-->
+    <div ng-if="showControl" class="item-row__control">
+        <button class="item-row__control-edit"></button>
+        <button class="item-row__control-remove"></button>
+    </div>
+</div>
+
+
+
+<!--     ng-repeat="item in history track by $index"-->

@@ -1,0 +1,11 @@
+<div class="sidebar">
+    <div class="sidebar__selected">Selected: {{currentItem.title}}</div>
+</div>
+<div>Tags:</div>
+<div ng-repeat="tag in currentItem.tags">
+    <tag-item tag="tag"
+              remove-tag="removeTag({tagName:tag})"
+    ></tag-item>
+</div>
+
+<tag-create add-tag="addTag({tagName})" current-item="currentItem"></tag-create>
