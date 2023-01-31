@@ -5,13 +5,30 @@ angular.module("app", ["templates", "app.directive", "data.service"])
         $scope.history = [];
 
         // $scope.lastItem = {};
-        $scope.tags = new Set();
+        $scope.tags = [];
+        const tagsMap = new Map();
+        function addToMap(tag) {
+            let count = tagsMap.get(tag) || 0;
+            if(!count) $scope.tags.push(tag);
+            tagsMap.set(tag, ++count);
+        }
+        function removeTagFromMap(tag) {
+            let count = tagsMap.get(tag)-1;
+            if(!count) {
+                $scope.tags = $scope.tags.filter(i => i !==tag);
+                tagsMap.delete(tag);
+            } else {
+                tagsMap.set(tag, count);
+            }
+        }
 
         $scope.list.forEach(i => {
             if(!$scope.lastItem) $scope.lastItem = i;
             if($scope.lastItem.date <= i.date) $scope.lastItem = i;
-            i.tags.forEach(tag => $scope.tags.add(tag))
+            i.tags.forEach(tag => addToMap(tag))
         });
+
+        // console.log('tagsMap',tagsMap)
 
         $scope.addItem = function (itemName) {
             const date = new Date().toISOString();
@@ -35,14 +52,20 @@ angular.module("app", ["templates", "app.directive", "data.service"])
             }
         }
 
+        $scope.changeTagSet = function () {
+
+        }
+
         $scope.addTag = function (tagName) {
             if (!tagName.length) return;
-            $scope.tags.add(tagName);
-
+            // $scope.tags.add(tagName);
+            // $scope.changeTagSet('add', tagName);
+            addToMap(tagName);
             if($scope.currentItem.tags.indexOf(tagName)<0) $scope.currentItem.tags.push(tagName)
         }
 
         $scope.removeTag = function (tagName) {
+            removeTagFromMap(tagName);
             $scope.currentItem.tags = $scope.currentItem.tags.filter(i => i !== tagName);
         }
 

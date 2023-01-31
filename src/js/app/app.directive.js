@@ -23,18 +23,53 @@ angular.module("app.directive", [])
                 list: "=",
                 setCurrent: "&",
                 addItem: "&",
+                tags: "=",
             },
             restrict: "E",
             templateUrl: "./js/app/templates/content-view.tpl.html",
+        };
+    })
+    .directive("some1", () => {
+        return {
+            scope: {
+                lastItem: "=",
+                tags: "=",
+            },
+            restrict: "E",
+            template: "<some-2 last-item='lastItem' tags='tags'></some-2>",
+        };
+    })
+    .directive("some2", () => {
+        return {
+            scope: {
+                lastItem: "=",
+                tags: "=",
+            },
+            restrict: "E",
+            template: "<some-3 last-item='lastItem' tags='tags'></some-3>",
+        };
+    })
+    .directive("some3", () => {
+        return {
+            scope: {
+                lastItem: "=",
+                tags: "=",
+            },
+            restrict: "E",
+            template: "<summary-view last-item='lastItem' tags='tags'></summary-view>",
         };
     })
     .directive("summaryView", () => {
         return {
             scope: {
                 lastItem: "=",
+                tags: "=",
             },
             restrict: "E",
             templateUrl: "./js/app/templates/summary-view.tpl.html",
+            controller: ["$scope", function ($scope) {
+                $scope.tagListStr = Array.from($scope.tags).toString();
+            }]
         };
     })
     .directive("itemsContainer", () => {
@@ -188,15 +223,12 @@ angular.module("app.directive", [])
     .directive("tagCreate", () => {
         return {
             scope: {
-                currentItem: "=",
-                addTag: "&",
-                inputTag:"="
+                addTag: "&"
             },
             restrict: "E",
             templateUrl: "./js/tags/tag-create.tpl.html",
             controller: ["$scope", function ($scope) {
                 $scope.inputTag = "";
-
                 $scope.onClickHandler = function (tag) {
                     $scope.inputTag = "";
                     $scope.addTag({tagName:tag});
@@ -230,3 +262,39 @@ angular.module("app.directive", [])
             }]
         };
     })
+
+
+
+/**
+
+ .directive("some1", () => {
+    return {
+      scope: {},
+      restrict: "E",
+      template: "<some-2></some-2>",
+    };
+  })
+ .directive("some2", () => {
+    return {
+      scope: {},
+      restrict: "E",
+      template: "<some-3></some-3>",
+    };
+  })
+ .directive("some3", () => {
+    return {
+      scope: {},
+      restrict: "E",
+      template: "<summary-view></summary-view>",
+    };
+  })
+ .directive("summaryView", () => {
+    return {
+      scope: {},
+      restrict: "E",
+      templateUrl: "./js/app/summary-view.tpl.html",
+    };
+  });
+
+
+* */

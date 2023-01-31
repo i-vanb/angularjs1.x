@@ -2,6 +2,7 @@
 
 elements-view {
   display: block;
+  overflow-x: hidden;
 }
 
 .elements-view__ctrls {
@@ -10,6 +11,7 @@ elements-view {
 
   input{
     border-radius: 3px;
+    margin: 5px 0;
   }
 }
 
@@ -19,6 +21,9 @@ elements-view {
   line-height: 22px;
   padding: 9px;
   width: 100%;
+  min-width: fit-content;
+  white-space: nowrap;
+
   &:hover{
     background-color: #DDDDDD;
     border: 2px solid #AAAAAA;
@@ -26,6 +31,9 @@ elements-view {
   }
 }
 .item-row{
+  &:hover{
+    padding: 5px 70px 5px 24px;
+  }
   &__wrapper{
     border-bottom: 1px solid #AAAAAA;
     padding: 10px 24px;
@@ -37,7 +45,7 @@ elements-view {
   }
 
   border-bottom: 1px solid #AAAAAA;
-  padding: 5px 70px 5px 24px;
+  padding: 5px 24px;
   overflow-x: hidden;
   cursor: default;
   transition: all .3s;

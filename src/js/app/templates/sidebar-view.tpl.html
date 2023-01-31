@@ -8,4 +8,8 @@
     ></tag-item>
 </div>
 
-<tag-create add-tag="addTag({tagName})" current-item="currentItem"></tag-create>
+<div class="tag-list__create" ng-if="currentItem.id">
+    <tag-create add-tag="addTag({tagName})"></tag-create>
+</div>
+
+<!--input-tag="inputTag"-->
